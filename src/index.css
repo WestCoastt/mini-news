@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --BG---Gray: #f0f1f4;
+  --Black-100: #000000;
+  --Black-80: #6d6d6d;
+  --Blue---Main: #3478f6;
+  --Sub---BlueSky: #82b0f4;
+  --White-100: #ffffff;
+  --White-90: #fefefe;
+  --White-60: #f2f2f2;
+  --Gray: #c4c4c4;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+}
