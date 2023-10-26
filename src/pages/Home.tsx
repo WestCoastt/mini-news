@@ -77,12 +77,15 @@ export default function Home() {
   const empty = new Array(7).fill("");
 
   const fetchArticle = async ({ pageParam = 1 }) => {
+    //apikey를 입력하세요.
+    const apiKey = "";
+
     const data = await axios.get(
       `https://newsapi.org/v2/${
         keyword ? "everything?" : "top-headlines?country=kr"
       }${
         keyword ? `q=${keyword}` : `&category=${category}`
-      }&apiKey=a0f9ad467a3748b98eb2333555ddb3e8&page=${pageParam}&pageSize=10`
+      }&apiKey=${apiKey}&page=${pageParam}&pageSize=10`
     );
     return { ...data, page: pageParam };
   };
