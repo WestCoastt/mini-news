@@ -78,7 +78,7 @@ export default function Home() {
 
   const fetchArticle = async ({ pageParam = 1 }) => {
     //apikey를 입력하세요.
-    const apiKey = "a0f9ad467a3748b98eb2333555ddb3e8";
+    const apiKey = "";
 
     const data = await axios.get(
       `https://newsapi.org/v2/${
