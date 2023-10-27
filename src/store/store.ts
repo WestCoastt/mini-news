@@ -61,6 +61,7 @@ interface CurrentKeyword {
   list: string[];
   setList: (item: string) => void;
   currentClicked: (item: string) => void;
+  deleteList: () => void;
 }
 
 export const useKeywordStore = create(
@@ -70,14 +71,19 @@ export const useKeywordStore = create(
       setList: (item) => {
         set((state) => ({
           list:
-            state.list.length > 5
-              ? [item, ...state.list.slice(1)]
+            state.list.length > 7
+              ? [item, ...state.list.slice(0, -1)]
               : [item, ...state.list],
         }));
       },
       currentClicked: (item) => {
         set((state) => ({
           list: [...state.list.filter((el) => el !== item)],
+        }));
+      },
+      deleteList: () => {
+        set(() => ({
+          list: [],
         }));
       },
     }),

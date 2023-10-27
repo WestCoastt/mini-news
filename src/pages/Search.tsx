@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { Slider } from "../components/Topbar";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useKeywordStore } from "../store/store";
 import { format, subDays } from "date-fns";
 
@@ -36,6 +35,7 @@ const Container = styled.div`
   }
 
   .dot {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,6 +43,17 @@ const Container = styled.div`
 
     img {
       width: 24px;
+    }
+
+    .delete {
+      position: absolute;
+      z-index: 2;
+      padding: 16px 28px;
+      border-radius: 6px;
+      right: 8px;
+      top: 36px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1);
+      background: var(--White-100);
     }
   }
 `;
@@ -67,7 +78,56 @@ const Input = styled.div`
 `;
 
 const RecentSearch = styled.div`
+  position: relative;
+  height: 36px;
+`;
+
+const KeywordList = styled.div`
+  position: absolute;
+  width: 100%;
+  max-width: 560px;
+  overflow-x: scroll;
   padding-left: 16px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: nowrap;
+
+    div {
+      flex: 0 0 auto;
+      width: fit-content;
+      margin: 0 2px;
+      padding: 6px 12px 4px 12px;
+
+      border-radius: 30px;
+      border: 1px solid var(--Gray);
+
+      color: var(--Black-80);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: -0.56px;
+    }
+    .selected {
+      color: var(--Blue---Main);
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: -0.56px;
+      border: 1px solid var(--Sub---BlueSky);
+    }
+
+    .no_list {
+      color: var(--Black-80);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: -0.56px;
+    }
+  }
 `;
 
 const Filter = styled.div`
@@ -129,9 +189,6 @@ const date_list = [
   { value: 1, name: "1일" },
   { value: 7, name: "1주" },
   { value: 30, name: "1개월" },
-  { value: 90, name: "3개월" },
-  { value: 180, name: "6개월" },
-  { value: 365, name: "1년" },
 ];
 
 export default function Search() {
@@ -143,7 +200,9 @@ export default function Search() {
     from: "",
     to: "",
   });
-  const { list, setList, currentClicked } = useKeywordStore();
+  const { list, setList, currentClicked, deleteList } = useKeywordStore();
+  const [menu, setMenu] = useState(false);
+  const menuRef = useRef<HTMLImageElement>(null);
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -184,6 +243,21 @@ export default function Search() {
     });
   };
 
+  const handleDelete = () => {
+    deleteList();
+  };
+
+  const clickOutside = (e: any) => {
+    menuRef.current !== e.target && setMenu(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", clickOutside);
+    return () => {
+      document.removeEventListener("click", clickOutside);
+    };
+  }, []);
+
   return (
     <Container>
       <div className="top">
@@ -207,26 +281,38 @@ export default function Search() {
 
       <div className="dot">
         <span>최근 검색어</span>
-        <img src="/img/icon_dot-menu.svg" alt="menu" />
+        <img
+          ref={menuRef}
+          src="/img/icon_dot-menu.svg"
+          alt="menu"
+          onClick={() => setMenu(!menu)}
+        />
+        {menu && (
+          <span className="delete" onClick={handleDelete}>
+            전체삭제
+          </span>
+        )}
       </div>
 
       <RecentSearch>
-        <Slider>
-          {list.length > 0 ? (
-            list.map((item: string) => (
-              <div
-                key={item}
-                onClick={() => {
-                  handleCurrentKeyword(item);
-                }}
-              >
-                {item}
-              </div>
-            ))
-          ) : (
-            <span className="no_list">검색 내역이 없습니다.</span>
-          )}
-        </Slider>
+        <KeywordList>
+          <div className="container">
+            {list.length > 0 ? (
+              list.map((item: string) => (
+                <div
+                  key={item}
+                  onClick={() => {
+                    handleCurrentKeyword(item);
+                  }}
+                >
+                  {item}
+                </div>
+              ))
+            ) : (
+              <span className="no_list">검색 내역이 없습니다.</span>
+            )}
+          </div>
+        </KeywordList>
       </RecentSearch>
 
       <Filter>
@@ -256,7 +342,6 @@ export default function Search() {
                 {item.name}
               </div>
             ))}
-            <div>직접 입력</div>
           </div>
         </div>
       </Filter>
