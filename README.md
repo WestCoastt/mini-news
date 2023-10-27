@@ -8,13 +8,11 @@
 ```
 npm i
 yarn install
-
 ```
 
 ```
 npm start
 yarn start
-
 ```
 
 [newsapi.org](https://newsapi.org/) 에서 apikey를 발급받고
@@ -23,7 +21,6 @@ yarn start
 Home.tsx
 
 const apiKey = "apikey를 입력해주세요"
-
 ```
 
 ## 기술스택
