@@ -25,7 +25,7 @@ const apiKey = "apikey를 입력해주세요"
 
 ## 기술스택
 
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"> <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=black"> <img src="https://img.shields.io/badge/Zustand-007054?style=for-the-badge&logo=Zustand&logoColor=black"> <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=StyledComponents&logoColor=black">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=black"> <img src="https://img.shields.io/badge/Zustand-007054?style=for-the-badge&logo=Zustand&logoColor=black"> <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=StyledComponents&logoColor=black">
 
 ## 구현한 기능
 
